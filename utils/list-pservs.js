@@ -23,7 +23,7 @@ function formatMoney(ns, value, format = "$0.00a") {
 export async function main(ns) {
   ns.disableLog("sleep");
 
-  const pservs = ns.getPurchasedServers();
+  const pservs = ns.cloud.getServerNames();
   
   ns.tprint("Purchased Servers:");
   ns.tprint("Name | RAM | Used | Free | Root | Money");

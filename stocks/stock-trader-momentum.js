@@ -39,13 +39,13 @@ const priceHistory = {};
 /** @param {NS} ns */
 export async function main(ns) {
   // Validate API access
-  if (!ns.stock.hasWSEAccount() || !ns.stock.hasTIXAPIAccess()) {
+  if (!ns.stock.hasWseAccount() || !ns.stock.hasTixApiAccess()) {
     ns.tprint("ERROR: You need TIX API Access! ($5 billion from WSE)");
     return;
   }
 
   // Check if they have 4S Data (recommend using forecast-based scripts instead)
-  if (ns.stock.has4SDataTIXAPI()) {
+  if (ns.stock.has4SDataTixApi()) {
     ns.tprint("═".repeat(70));
     ns.tprint("NOTICE: You have 4S Market Data!");
     ns.tprint("Consider using stock-trader-basic.js instead for better results.");
@@ -87,7 +87,7 @@ export async function main(ns) {
   
   ns.disableLog("ALL");
   ns.clearLog();
-  ns.tail();
+  ns.ui.openTail();
   
       ns.print(`${"═".repeat(70)}`);
       ns.print(`MOMENTUM STOCK TRADER - STARTING`);

@@ -8,9 +8,9 @@ export async function main(ns) {
   ns.tprint("STOCK MARKET API ACCESS CHECK");
   ns.tprint("═".repeat(50));
   
-  const hasWSE = ns.stock.hasWSEAccount();
-  const hasTIX = ns.stock.hasTIXAPIAccess();
-  const has4SData = ns.stock.has4SDataTIXAPI();
+  const hasWSE = ns.stock.hasWseAccount();
+  const hasTIX = ns.stock.hasTixApiAccess();
+  const has4SData = ns.stock.has4SDataTixApi();
   
   ns.tprint(`\n✓ WSE Account: ${hasWSE ? "YES" : "NO"}`);
   ns.tprint(`✓ TIX API Access: ${hasTIX ? "YES" : "NO"}`);

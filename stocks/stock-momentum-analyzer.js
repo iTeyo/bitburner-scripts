@@ -33,14 +33,14 @@ const priceHistory = {};
 
 /** @param {NS} ns */
 export async function main(ns) {
-  if (!ns.stock.hasWSEAccount() || !ns.stock.hasTIXAPIAccess()) {
+  if (!ns.stock.hasWseAccount() || !ns.stock.hasTixApiAccess()) {
     ns.tprint("ERROR: You need TIX API Access! ($5 billion from WSE)");
     return;
   }
 
   const cyclesToRun = ns.args[0] || 5; // Default: 5 cycles (30 seconds at 6s/cycle)
   const refreshRate = 6000; // 6 seconds to match market updates
-  const has4S = ns.stock.has4SDataTIXAPI();
+  const has4S = ns.stock.has4SDataTixApi();
   
   ns.tprint(`${"═".repeat(70)}`);
   ns.tprint(`MOMENTUM ANALYSIS PREVIEW - NO TRADES EXECUTED`);

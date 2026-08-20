@@ -42,12 +42,12 @@ const COMMISSION = 100000;     // Stock transaction commission
 /** @param {NS} ns */
 export async function main(ns) {
   // Validate API access
-  if (!ns.stock.hasWSEAccount() || !ns.stock.hasTIXAPIAccess()) {
+  if (!ns.stock.hasWseAccount() || !ns.stock.hasTixApiAccess()) {
     ns.tprint("ERROR: You need TIX API Access! ($5 billion from WSE)");
     return;
   }
 
-  if (!ns.stock.has4SDataTIXAPI()) {
+  if (!ns.stock.has4SDataTixApi()) {
     ns.tprint("ERROR: You need 4S Market Data TIX API! ($1 billion)");
     ns.tprint("This script requires forecast data to make trading decisions.");
     return;
@@ -72,7 +72,7 @@ export async function main(ns) {
   
   ns.disableLog("ALL");
   ns.clearLog();
-  ns.tail();
+  ns.ui.openTail();
   
   ns.print(`${"═".repeat(70)}`);
   ns.print(`BASIC STOCK TRADER - STARTING`);

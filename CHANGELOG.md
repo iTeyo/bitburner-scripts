@@ -2,6 +2,38 @@
 
 All notable changes to this Bitburner script collection are documented in this file.
 
+## [1.9.1] - 2026-08-20 - Bitburner v3.0.0 Cloud, Stock and UI API Migration ☁️
+
+### Fixed - Remaining Removed-in-3.0.0 API Calls
+
+**Issue**: Running server-purchase scripts in v3.0.0 produced errors like:
+```
+getPurchasedServerCost: Function removed in 3.0.0. Please use ns.cloud.getServerCost() instead.
+```
+
+**Root Cause**: v3.0.0 moved more APIs than just formatting — purchased-server functions moved to the new `ns.cloud` namespace, tail functions moved to `ns.ui`, and the stock access-check functions were renamed with standardized casing. All replacements verified against the official `bitburner-src` API documentation.
+
+**API Migrations Applied**:
+| Removed (v2.x) | Replacement (v3.0.0+) |
+|---|---|
+| `ns.getPurchasedServers()` | `ns.cloud.getServerNames()` |
+| `ns.getPurchasedServerCost(ram)` | `ns.cloud.getServerCost(ram)` |
+| `ns.getPurchasedServerLimit()` | `ns.cloud.getServerLimit()` |
+| `ns.purchaseServer(name, ram)` | `ns.cloud.purchaseServer(name, ram)` |
+| `ns.deleteServer(name)` | `ns.cloud.deleteServer(name)` |
+| `ns.tail()` | `ns.ui.openTail()` |
+| `ns.stock.hasWSEAccount()` | `ns.stock.hasWseAccount()` |
+| `ns.stock.hasTIXAPIAccess()` | `ns.stock.hasTixApiAccess()` |
+| `ns.stock.has4SDataTIXAPI()` | `ns.stock.has4SDataTixApi()` |
+
+**Affected Scripts** (11 total):
+- `deploy/` - `purchase-server-8gb.js`, `replace-pservs-no-copy.js`
+- `utils/` - `list-pservs.js`
+- `stocks/` - `check-stock-api.js`, `stock-info.js`, `stock-monitor.js`, `stock-momentum-analyzer.js`, `stock-trader-basic.js`, `stock-trader-advanced.js`, `stock-trader-momentum.js`, `close-all-stock.js`
+
+**Unchanged**: `ns.stock.buyStock/sellStock/buyShort/sellShort` and the other stock query functions keep their names in v3.0.0; `ns.wget` also still exists, so the updater is unaffected.
+
+
 ## [1.9.0] - 2026-08-20 - Native Bitburner v3.0.0 ns.format API Migration 🚀
 
 ### Changed - All Formatting Helpers Now Use ns.format Directly

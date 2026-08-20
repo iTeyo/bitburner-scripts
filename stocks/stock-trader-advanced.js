@@ -61,12 +61,12 @@ const MAX_POSITION_SIZE = 0.10; // Max 10% of portfolio per stock
 /** @param {NS} ns */
 export async function main(ns) {
   // Validate API access
-  if (!ns.stock.hasWSEAccount() || !ns.stock.hasTIXAPIAccess()) {
+  if (!ns.stock.hasWseAccount() || !ns.stock.hasTixApiAccess()) {
     ns.tprint("ERROR: You need TIX API Access! ($5 billion from WSE)");
     return;
   }
 
-  if (!ns.stock.has4SDataTIXAPI()) {
+  if (!ns.stock.has4SDataTixApi()) {
     ns.tprint("ERROR: You need 4S Market Data TIX API! ($1 billion)");
     return;
   }
@@ -107,7 +107,7 @@ export async function main(ns) {
   
   ns.disableLog("ALL");
   ns.clearLog();
-  ns.tail();
+  ns.ui.openTail();
   
   ns.print(`${"═".repeat(70)}`);
   ns.print(`ADVANCED STOCK TRADER - STARTING`);
