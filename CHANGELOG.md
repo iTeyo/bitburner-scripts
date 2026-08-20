@@ -2,6 +2,48 @@
 
 All notable changes to this Bitburner script collection are documented in this file.
 
+## [1.9.0] - 2026-08-20 - Native Bitburner v3.0.0 ns.format API Migration 🚀
+
+### Changed - All Formatting Helpers Now Use ns.format Directly
+
+**Issue**: Even with the previous fallback logic, every formatted value spammed errors to the terminal in v3.0.0:
+```
+format.number: 'fractionalDigits' must be a number. Is of type 'string', value: '$0.00a'
+formatNumber: Function removed in 3.0.0. Please use ns.format.number() instead.
+```
+
+**Root Cause**: The compatibility helpers still *called* removed functions (`ns.nFormat()`, `ns.formatNumber()`) inside try/catch blocks — Bitburner logs the error each time even when the exception is caught. `smart-batcher.js` additionally passed the numeral-style string `"$0.00a"` to `ns.format.number()`, whose second parameter is a numeric `fractionalDigits`.
+
+**Solution**: Every formatting helper was rewritten to use the v3.0.0 `ns.format` API exclusively — no fallback ladders, no calls into removed functions. The helpers keep their signatures, so call sites are unchanged: numeral-style format strings like `"$0.00a"` are still accepted, with the `"$"` prefix and decimal count parsed out and passed to `ns.format.number(value, decimals)`.
+
+```javascript
+function formatMoney(ns, value, format = "$0.00a") {
+  const match = format.match(/\.(0+)/);
+  const decimals = match ? match[1].length : 0;
+  const sign = value < 0 ? "-" : "";
+  const currency = format.includes("$") ? "$" : "";
+  return sign + currency + ns.format.number(Math.abs(value), decimals);
+}
+```
+
+**Affected Scripts** (19 total):
+- `analysis/` - `profit-scan.js`, `profit-scan-flex.js`, `f-profit-scan-flex.js`, `estimate-production.js`, `f-estimate-production.js`, `production-monitor.js`
+- `batch/` - `smart-batcher.js`
+- `deploy/` - `auto-expand.js`, `purchase-server-8gb.js`, `replace-pservs-no-copy.js`
+- `stocks/` - `stock-info.js`, `stock-monitor.js`, `stock-momentum-analyzer.js`, `stock-trader-basic.js`, `stock-trader-advanced.js`, `stock-trader-momentum.js`, `close-all-stock.js`
+- `utils/` - `list-pservs.js`, `server-info.js`
+
+**Additional Fixes**:
+- `replace-pservs-no-copy.js`: total RAM display now uses `ns.format.ram()` instead of the numeral bytes format `"0.00b"` (which treated GB values as raw bytes)
+- Share counts formatted with non-`$` formats (e.g. `"0.0a"`) no longer get a spurious `$` prefix, which the old manual fallback always added
+
+**Result**:
+- Zero error spam in v3.0.0+ — clean terminal and log output
+- Consistent formatting via the game's own number formatter (respects in-game notation settings)
+
+**Version Compatibility**: ✅ v3.0.0+ only — v2.x support dropped, since `ns.format` does not exist there
+
+
 ## [1.8.18] - 2025-11-25 - Analysis Scripts Bitburner v3.0.0+ Compatibility 🔧
 
 ### Fixed - Deprecated ns.nFormat() Usage in All Analysis Scripts

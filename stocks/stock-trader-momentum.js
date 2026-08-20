@@ -31,7 +31,7 @@ const HISTORY_LENGTH = 5;             // Track last 5 price points
 const COMMISSION = 100000;            // Stock transaction commission
 const MAX_PRICE_SWING = 3;            // Skip stocks with >3% price swings (too risky)
 
-function formatMoney(ns,v,f){try{return ns.nFormat(v,f);}catch(e){const u=['','k','m','b','t','q','Q','s','S','o','n'];let i=0,n=Math.abs(v);while(n>=1000&&i<u.length-1){n/=1000;i++;}return(v<0?'-$':'$')+n.toFixed(f.includes('.00')?2:f.includes('.000')?3:0)+u[i];}}
+function formatMoney(ns,v,f="$0.00a"){const m=f.match(/\.(0+)/);return(v<0?"-":"")+(f.includes("$")?"$":"")+ns.format.number(Math.abs(v),m?m[1].length:0);}
 
 // Global price history storage
 const priceHistory = {};
