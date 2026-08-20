@@ -387,28 +387,10 @@ export async function main(ns) {
 }
 
 /**
- * Format number as currency with compatibility for both v2.x and v3.x
+ * Format a value as money with the Bitburner v3.0.0+ ns.format API (e.g. "$1.23m").
  * @param {NS} ns
  * @param {number} v - Value to format
  */
 function formatNumber(ns, v) {
-  // Try new format.number (v3.x) first
-  try {
-    if (ns.format && ns.format.number) {
-      return ns.format.number(v, "$0.00a");
-    }
-  } catch (e) {
-    // Fall through to old method
-  }
-  
-  // Try old formatNumber (v2.x)
-  try {
-    return ns.formatNumber(v, 2);
-  } catch (e) {
-    // Manual fallback if both methods fail
-    if (v >= 1e9) return `$${(v/1e9).toFixed(2)}b`;
-    if (v >= 1e6) return `$${(v/1e6).toFixed(2)}m`;
-    if (v >= 1e3) return `$${(v/1e3).toFixed(2)}k`;
-    return `$${v.toFixed(2)}`;
-  }
+  return (v < 0 ? "-$" : "$") + ns.format.number(Math.abs(v), 2);
 }

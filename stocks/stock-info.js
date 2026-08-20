@@ -8,19 +8,19 @@
  */
 
 /**
- * Format number for both v2.x and v3.x compatibility
+ * Format a value with the Bitburner v3.0.0+ ns.format API.
+ * Accepts a numeral-style format string (e.g. "$0.00a"): the "$" prefix
+ * and the decimal count are honored, suffixes come from ns.format.number.
+ * @param {NS} ns
+ * @param {number} value
+ * @param {string} format
  */
-function formatMoney(ns, value, format) {
-  try {
-    return ns.nFormat(value, format);
-  } catch (e) {
-    const units = ['', 'k', 'm', 'b', 't', 'q', 'Q', 's', 'S', 'o', 'n'];
-    let unitIndex = 0;
-    let num = Math.abs(value);
-    while (num >= 1000 && unitIndex < units.length - 1) { num /= 1000; unitIndex++; }
-    const decimals = format.includes('.00') ? 2 : format.includes('.000') ? 3 : 0;
-    return (value < 0 ? '-$' : '$') + num.toFixed(decimals) + units[unitIndex];
-  }
+function formatMoney(ns, value, format = "$0.00a") {
+  const match = format.match(/\.(0+)/);
+  const decimals = match ? match[1].length : 0;
+  const sign = value < 0 ? "-" : "";
+  const currency = format.includes("$") ? "$" : "";
+  return sign + currency + ns.format.number(Math.abs(value), decimals);
 }
 
 /** @param {NS} ns */

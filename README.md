@@ -899,28 +899,26 @@ Open source - use freely in your Bitburner gameplay!
 
 ---
 
-**Last Updated**: November 25, 2025  
-**Current Version**: 1.8.18  
-**Latest Feature**: profit-scan-flex.js v3.0.0+ compatibility (eliminated ns.nFormat deprecation warning)
+**Last Updated**: August 20, 2026  
+**Current Version**: 1.9.0  
+**Latest Feature**: Native Bitburner v3.0.0 `ns.format` API in all scripts (no more removed-function error spam)
 
 ## ✅ Version Compatibility
 
-**Bitburner v2.8.1 (Steam)**: ✅ Fully Compatible  
-**Bitburner v3.0.0 (Web)**: ✅ Fully Compatible
+**Bitburner v3.0.0+ (Web/Steam)**: ✅ Fully Compatible  
+**Bitburner v2.x**: ❌ No longer supported (scripts call `ns.format.*` directly, which does not exist in v2.x)
 
-**All scripts updated with v2.x/v3.x compatibility:**
-- Added compatibility helper functions to all scripts
-- Intelligently tries new API (v3.x) with fallback to old API (v2.x)
-- **100% backward compatible** - works perfectly in both versions
+**All scripts migrated to the native v3.0.0 formatting API:**
+- Helpers use `ns.format.number(value, fractionalDigits)` / `ns.format.ram()` directly
+- No more try/catch fallback ladders that called removed functions
+- Clean script output — zero "Function removed in 3.0.0" or "'fractionalDigits' must be a number" errors
 
-**What Was Fixed:**
-- `ns.nFormat()` removed in v3.0.0 → replaced with `formatMoney()` helper
-- `ns.formatNumber()` removed in v3.0.0 → replaced with `formatNumber()` helper
-- Scripts now use compatibility layers that work in both versions
-- All scripts tested and confirmed working in v2.8.1 Steam and v3.0.0 Web
-
-**Latest v3.0.0 Fix (v1.8.7):**
-- ✅ `smart-batcher.js` - Fixed `formatNumber()` deprecation error
+**What Was Fixed (v1.9.0):**
+- `ns.nFormat(value, "$0.00a")` calls (removed in v3.0.0) → `ns.format.number()` with numeric decimals
+- `ns.formatNumber()` calls (removed in v3.0.0) → `ns.format.number()`
+- `ns.format.number(v, "$0.00a")` misuse in `smart-batcher.js` → numeric `fractionalDigits` argument
+- RAM totals in `replace-pservs-no-copy.js` → `ns.format.ram()`
+- Share counts formatted with non-`$` formats no longer get a spurious `$` prefix
 
 ---
 
