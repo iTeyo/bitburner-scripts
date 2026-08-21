@@ -16,13 +16,13 @@ function formatMoney(ns,v,f="$0.00a"){const m=f.match(/\.(0+)/);return(v<0?"-":"
 
 /** @param {NS} ns */
 export async function main(ns) {
-  if (!ns.stock.hasWSEAccount() || !ns.stock.hasTIXAPIAccess()) {
+  if (!ns.stock.hasWseAccount() || !ns.stock.hasTixApiAccess()) {
     ns.tprint("ERROR: You need TIX API Access! ($5 billion from WSE)");
     return;
   }
 
   const confirmFlag = ns.args.includes("--confirm");
-  const has4S = ns.stock.has4SDataTIXAPI();
+  const has4S = ns.stock.has4SDataTixApi();
   
   // Scan for positions
   const symbols = ns.stock.getSymbols();

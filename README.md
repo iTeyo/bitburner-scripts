@@ -920,6 +920,11 @@ Open source - use freely in your Bitburner gameplay!
 - RAM totals in `replace-pservs-no-copy.js` → `ns.format.ram()`
 - Share counts formatted with non-`$` formats no longer get a spurious `$` prefix
 
+**What Was Fixed (v1.9.1):**
+- Purchased-server functions → `ns.cloud` namespace (`getServerNames`, `getServerCost`, `getServerLimit`, `purchaseServer`, `deleteServer`)
+- `ns.tail()` → `ns.ui.openTail()`
+- Stock access checks → standardized casing (`hasWseAccount`, `hasTixApiAccess`, `has4SDataTixApi`)
+
 ---
 
 **Essential Documentation:**

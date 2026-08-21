@@ -26,19 +26,19 @@ function formatMoney(ns, value, format = "$0.00a") {
 /** @param {NS} ns */
 export async function main(ns) {
   // Check if TIX API is available
-  if (!ns.stock.hasWSEAccount()) {
+  if (!ns.stock.hasWseAccount()) {
     ns.tprint("ERROR: You need to purchase WSE Account access first!");
     ns.tprint("Visit the World Stock Exchange in the City.");
     return;
   }
 
-  if (!ns.stock.hasTIXAPIAccess()) {
+  if (!ns.stock.hasTixApiAccess()) {
     ns.tprint("ERROR: You need to purchase TIX API Access ($5 billion)!");
     return;
   }
 
   const symbol = ns.args[0];
-  const has4S = ns.stock.has4SDataTIXAPI();
+  const has4S = ns.stock.has4SDataTixApi();
 
   if (symbol) {
     // Display info for specific stock
